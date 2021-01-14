@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "882234227324",
+    "project_id": "englishlearnerforum",
+    "storage_bucket": "englishlearnerforum.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:882234227324:android:f5425c2b21cafac98fa7f9",
+        "android_client_info": {
+          "package_name": "com.ndmnhat.EnglishLearnerForum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "882234227324-94ipp1jlroft9j467ji76a0ilskm6tv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4zMm5a8g4yd_ka1KBUg6yHYFQwcqKmOo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "882234227324-94ipp1jlroft9j467ji76a0ilskm6tv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
