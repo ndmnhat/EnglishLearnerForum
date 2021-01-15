@@ -8,12 +8,14 @@ part of 'comment.dart';
 
 Comment _$CommentFromJson(Map<String, dynamic> json) {
   return Comment(
-    json['userRef'] as String,
-    json['content'] as String,
+    id: json['id'] as String,
+    userRef: json['userRef'] as String,
+    content: json['content'] as String,
   );
 }
 
 Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
+      'id': instance.id,
       'userRef': instance.userRef,
       'content': instance.content,
     };
