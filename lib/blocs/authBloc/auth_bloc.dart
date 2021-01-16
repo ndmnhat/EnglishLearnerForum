@@ -4,6 +4,9 @@ import 'package:EnglishLearnerForum/repositories/user_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
+export 'package:EnglishLearnerForum/blocs/authBloc/auth_event.dart';
+export 'package:EnglishLearnerForum/blocs/authBloc/auth_state.dart';
+
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   UserRepository userRepository;
 

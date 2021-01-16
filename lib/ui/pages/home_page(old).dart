@@ -1,8 +1,6 @@
-import 'package:EnglishLearnerForum/blocs/homeBloc/home_page_bloc.dart';
-import 'package:EnglishLearnerForum/blocs/homeBloc/home_page_event.dart';
-import 'package:EnglishLearnerForum/blocs/homeBloc/home_page_state.dart';
+import 'package:EnglishLearnerForum/blocs/bloc.dart';
 import 'package:EnglishLearnerForum/repositories/user_repository.dart';
-import 'package:EnglishLearnerForum/ui/pages/signup_page.dart';
+import 'package:EnglishLearnerForum/ui/pages/signup_page(old).dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

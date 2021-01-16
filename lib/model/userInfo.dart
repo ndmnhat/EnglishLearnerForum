@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-part 'user.g.dart';
+part 'userInfo.g.dart';
 
 @JsonSerializable()
-class User {
-  User(
+class UserInfo {
+  UserInfo(
       {this.id,
       @required this.displayName,
       @required this.email,
@@ -17,10 +17,11 @@ class User {
   String role;
   String phoneNumber;
 
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-  Map<String, dynamic> toJson() => _$UserToJson(this);
-  factory User.fromSnapshot(DocumentSnapshot snap) =>
-      User.fromJson(snap.data());
+  factory UserInfo.fromJson(Map<String, dynamic> json) =>
+      _$UserInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$UserInfoToJson(this);
+  factory UserInfo.fromSnapshot(DocumentSnapshot snap) =>
+      UserInfo.fromJson(snap.data());
   Map<String, dynamic> toDocument() => <String, dynamic>{
         'displayName': displayName,
         'email': email,

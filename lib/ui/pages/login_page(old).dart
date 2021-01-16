@@ -1,47 +1,46 @@
-import 'package:EnglishLearnerForum/blocs/regBloc/user_reg_bloc.dart';
-import 'package:EnglishLearnerForum/blocs/regBloc/user_reg_event.dart';
-import 'package:EnglishLearnerForum/blocs/regBloc/user_reg_state.dart';
+import 'package:EnglishLearnerForum/blocs/loginBloc/login_bloc.dart';
+import 'package:EnglishLearnerForum/blocs/loginBloc/login_event.dart';
+import 'package:EnglishLearnerForum/blocs/loginBloc/login_state.dart';
 import 'package:EnglishLearnerForum/repositories/user_repository.dart';
+import 'package:EnglishLearnerForum/ui/pages/signup_page(old).dart';
+import 'package:EnglishLearnerForum/ui/pages/page_parent.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'home_page.dart';
-import 'login_page.dart';
 import 'package:meta/meta.dart';
 
-class SignUpPageParent extends StatelessWidget {
+class LoginPageParent extends StatelessWidget {
   final UserRepository userRepository;
 
-  SignUpPageParent({@required this.userRepository});
+  LoginPageParent({@required this.userRepository});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => UserRegBloc(userRepository: userRepository),
-      child: SignUpPage(userRepository: userRepository),
+      create: (context) => LoginBloc(userRepository: userRepository),
+      child: LoginPage(userRepository: userRepository),
     );
   }
 }
 
 //ignore: must_be_immutable
-class SignUpPage extends StatelessWidget {
-  TextEditingController emailCntrl = TextEditingController();
+class LoginPage extends StatelessWidget {
+  TextEditingController emailCntrlr = TextEditingController();
   TextEditingController passCntrlr = TextEditingController();
-
-  String authResult;
-  UserRegBloc userRegBloc;
+  LoginBloc loginBloc;
   UserRepository userRepository;
 
-  SignUpPage({@required this.userRepository});
+  LoginPage({@required this.userRepository});
 
   @override
   Widget build(BuildContext context) {
-    userRegBloc = BlocProvider.of<UserRegBloc>(context);
+    loginBloc = BlocProvider.of<LoginBloc>(context);
+
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Sign Up"),
+          title: Text("Login"),
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
@@ -51,22 +50,22 @@ class SignUpPage extends StatelessWidget {
             children: <Widget>[
               Container(
                 padding: EdgeInsets.all(5.0),
-                child: BlocListener<UserRegBloc, UserRegState>(
+                child: BlocListener<LoginBloc, LoginState>(
                   listener: (context, state) {
-                    if (state is UserRegSuccessful) {
-                      navigateToHomePage(context, state.user);
+                    if (state is LoginSuccessState) {
+                      navigateToHomeScreen(context, state.user);
                     }
                   },
-                  child: BlocBuilder<UserRegBloc, UserRegState>(
+                  child: BlocBuilder<LoginBloc, LoginState>(
                     builder: (context, state) {
-                      if (state is UserRegInitial) {
+                      if (state is LoginInitialState) {
                         return buildInitialUi();
-                      } else if (state is UserRegLoading) {
+                      } else if (state is LoginLoadingState) {
                         return buildLoadingUi();
-                      } else if (state is UserRegFailure) {
+                      } else if (state is LoginFailState) {
                         return buildFailureUi(state.message);
-                      } else if (state is UserRegSuccessful) {
-                        emailCntrl.text = "";
+                      } else if (state is LoginSuccessState) {
+                        emailCntrlr.text = "";
                         passCntrlr.text = "";
                       }
                       return Container();
@@ -77,7 +76,7 @@ class SignUpPage extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(5.0),
                 child: TextField(
-                  controller: emailCntrl,
+                  controller: emailCntrlr,
                   decoration: InputDecoration(
                     errorStyle: TextStyle(color: Colors.white),
                     filled: true,
@@ -110,21 +109,25 @@ class SignUpPage extends StatelessWidget {
                   Container(
                     child: RaisedButton(
                       color: Colors.cyan,
-                      child: Text("Sign Up"),
+                      child: Text("Login"),
                       textColor: Colors.white,
                       onPressed: () {
-                        userRegBloc.add(SignUpButtonPressed(
-                            email: emailCntrl.text, password: passCntrlr.text));
+                        loginBloc.add(
+                          LoginButtonPressed(
+                            email: emailCntrlr.text,
+                            password: passCntrlr.text,
+                          ),
+                        );
                       },
                     ),
                   ),
                   Container(
                     child: RaisedButton(
                       color: Colors.cyan,
-                      child: Text("Login Now"),
+                      child: Text("Sign Up Now"),
                       textColor: Colors.white,
                       onPressed: () {
-                        navigateToLoginPage(context);
+                        navigateToSignUpScreen(context);
                       },
                     ),
                   ),
@@ -138,7 +141,16 @@ class SignUpPage extends StatelessWidget {
   }
 
   Widget buildInitialUi() {
-    return Text("Waiting For Authentication");
+    return Container(
+      padding: EdgeInsets.all(5.0),
+      child: Text(
+        "Enter Login Credentials",
+        style: TextStyle(
+          fontSize: 30.0,
+          color: Colors.teal,
+        ),
+      ),
+    );
   }
 
   Widget buildLoadingUi() {
@@ -147,22 +159,31 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  void navigateToHomePage(BuildContext context, User user) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return HomePageParent(user: user, userRepository: userRepository);
-    }));
-  }
-
   Widget buildFailureUi(String message) {
-    return Text(
-      message,
-      style: TextStyle(color: Colors.red),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.all(5.0),
+          child: Text(
+            "Fail $message",
+            style: TextStyle(color: Colors.red),
+          ),
+        ),
+        buildInitialUi(),
+      ],
     );
   }
 
-  void navigateToLoginPage(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return LoginPageParent(userRepository: userRepository);
+  void navigateToHomeScreen(BuildContext context, User user) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return PageParent(user: user, userRepository: userRepository);
+    }));
+  }
+
+  void navigateToSignUpScreen(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return SignUpPageParent(userRepository: userRepository);
     }));
   }
 }
