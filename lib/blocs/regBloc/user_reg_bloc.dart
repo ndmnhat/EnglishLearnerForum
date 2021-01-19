@@ -4,9 +4,6 @@ import 'package:EnglishLearnerForum/repositories/user_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-export 'package:EnglishLearnerForum/blocs/regBloc/user_reg_event.dart';
-export 'package:EnglishLearnerForum/blocs/regBloc/user_reg_state.dart';
-
 class UserRegBloc extends Bloc<UserRegEvent, UserRegState> {
   UserRepository userRepository;
 

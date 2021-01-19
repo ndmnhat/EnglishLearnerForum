@@ -4,9 +4,6 @@ import 'package:EnglishLearnerForum/repositories/user_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-export 'package:EnglishLearnerForum/blocs/loginBloc/login_event.dart';
-export 'package:EnglishLearnerForum/blocs/loginBloc/login_state.dart';
-
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   UserRepository userRepository;
 

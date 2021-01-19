@@ -1,8 +1,10 @@
 import 'dart:ui';
+import 'package:EnglishLearnerForum/blocs/userProfileBloc/userProfile.dart';
+import 'package:EnglishLearnerForum/repositories/repository.dart';
 import 'package:EnglishLearnerForum/ui/pages/constants.dart';
-import 'package:EnglishLearnerForum/ui/pages/theme.dart';
-//import 'package:EnglishLearnerForum/model/User.dart';
-import 'package:EnglishLearnerForum/repositories/user_repository.dart';
+import 'package:EnglishLearnerForum/ui/pages/topic_page.dart';
+import 'package:EnglishLearnerForum/ui/widgets/topicWidgets/addTopicButton.dart';
+import 'package:EnglishLearnerForum/ui/widgets/topicWidgets/topicList.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -13,13 +15,21 @@ import 'package:meta/meta.dart';
 class HomePageParent extends StatelessWidget {
   final User user;
   final UserRepository userRepository;
-
+  final TopicRepository topicRepository = new TopicRepository();
   HomePageParent({@required this.user, @required this.userRepository});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomePageBloc(userRepository: userRepository),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<HomePageBloc>(
+          create: (context) => HomePageBloc(userRepository: userRepository),
+        ),
+        BlocProvider<TopicBloc>(
+          create: (context) =>
+              TopicBloc(topicRepository: topicRepository)..add(LoadTopics()),
+        ),
+      ],
       child: HomePage(user: user, userRepository: userRepository),
     );
   }
@@ -34,10 +44,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  HomePageBloc homePageBloc;
   @override
   Widget build(BuildContext context) {
-    homePageBloc = BlocProvider.of<HomePageBloc>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.cyanAccent[400],
@@ -59,81 +67,11 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 32, 16, 32),
-              child: SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: RaisedButton(
-                  onPressed: onChuDe1Click,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  color: Colors.cyanAccent[400],
-                  child: Text("CHỦ ĐỀ 1"),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
-              child: SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: RaisedButton(
-                  onPressed: onChuDe1Click,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  color: Colors.cyanAccent[400],
-                  child: Text("CHỦ ĐỀ 2"),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
-              child: SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: RaisedButton(
-                  onPressed: onChuDe1Click,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  color: Colors.cyanAccent[400],
-                  child: Text("CHỦ ĐỀ 3"),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
-              child: SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: RaisedButton(
-                  onPressed: onChuDe1Click,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  color: Colors.cyanAccent[400],
-                  child: Text("CHỦ ĐỀ 4"),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 50),
-              child: SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: RaisedButton(
-                  onPressed: onChuDe1Click,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  color: Colors.cyanAccent[400],
-                  child: Text("CHỦ ĐỀ 5"),
-                ),
-              ),
-            ),
-          ],
-        ),
+      body: ListView(
+        children: [
+          TopicList(user: widget.user),
+          AddTopicButton(),
+        ],
       ),
       //
     );
@@ -141,10 +79,11 @@ class _HomePageState extends State<HomePage> {
 
   void onChuDe1Click() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ThemePage()));
+        context, MaterialPageRoute(builder: (context) => TopicPageParent()));
   }
 
   void choiceAction(String choice) {
-    print("WORKING");
+    if (choice == "Đăng xuất")
+      BlocProvider.of<AuthBloc>(context).add(UserLogOutEvent());
   }
 }

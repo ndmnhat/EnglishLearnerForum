@@ -229,7 +229,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void navigateToHomeScreen(BuildContext context, User user) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
       return PageParent(user: user, userRepository: widget.userRepository);
     }));
   }

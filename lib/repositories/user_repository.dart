@@ -2,6 +2,7 @@ import 'package:EnglishLearnerForum/utils/error_codes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:EnglishLearnerForum/model/userProfile.dart';
 
 class UserRepository {
   FirebaseAuth firebaseAuth;
@@ -116,6 +117,16 @@ class UserRepository {
   Future<bool> isSignedIn() async {
     var currentUser = firebaseAuth.currentUser;
     return currentUser != null;
+  }
+
+  Stream<UserProfile> getUserProfile(String userId) {
+    return users.doc(userId).snapshots().map((snap) {
+      return UserProfile.fromSnapshot(snap);
+    });
+  }
+
+  Future<void> updateUserProfile(UserProfile user) {
+    return users.doc(user.id).update(user.toDocument());
   }
 
   // get current user

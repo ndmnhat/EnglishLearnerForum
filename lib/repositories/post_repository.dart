@@ -13,7 +13,7 @@ class PostRepository {
 
   Stream<List<Post>> getAllPosts() {
     return posts.snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => Post.fromSnapshot(doc));
+      return snapshot.docs.map((doc) => Post.fromSnapshot(doc)).toList();
     });
   }
 

@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:EnglishLearnerForum/model/exerciseResult.dart';
-import 'package:EnglishLearnerForum/model/userInfo.dart';
+import 'package:EnglishLearnerForum/model/userProfile.dart';
 
 class ExerciseResultRepository {
   CollectionReference exerciseResults;
-  ExerciseResultRepository(UserInfo user) {
+  ExerciseResultRepository(UserProfile user) {
     exerciseResults = FirebaseFirestore.instance
         .collection('users')
         .doc(user.id)

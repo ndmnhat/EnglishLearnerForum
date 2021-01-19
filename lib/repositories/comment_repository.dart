@@ -15,7 +15,10 @@ class CommentRepository {
 
   Stream<List<Comment>> getAllComments() {
     return comments.snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => Comment.fromSnapshot(doc));
+      // var docs = snapshot.docs;
+      // var comments = docs.map((doc) => Comment.fromSnapshot(doc));
+      // return comments.toList();
+      return snapshot.docs.map((doc) => Comment.fromSnapshot(doc)).toList();
     });
   }
 

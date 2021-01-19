@@ -9,7 +9,7 @@ class TopicRepository {
 
   Stream<List<Topic>> getAllTopics() {
     return topics.snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => Topic.fromSnapshot(doc));
+      return snapshot.docs.map((doc) => Topic.fromSnapshot(doc)).toList();
     });
   }
 

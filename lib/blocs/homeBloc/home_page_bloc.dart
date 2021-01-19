@@ -4,9 +4,6 @@ import 'package:EnglishLearnerForum/repositories/user_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-export 'package:EnglishLearnerForum/blocs/homeBloc/home_page_event.dart';
-export 'package:EnglishLearnerForum/blocs/homeBloc/home_page_state.dart';
-
 class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
   UserRepository userRepository;
 

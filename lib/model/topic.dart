@@ -5,15 +5,20 @@ part 'topic.g.dart';
 
 @JsonSerializable()
 class Topic {
-  Topic({String id, @required this.title, @required this.description});
+  Topic({this.id, @required this.title, @required this.description});
   String id;
   String title;
   String description;
 
   factory Topic.fromJson(Map<String, dynamic> json) => _$TopicFromJson(json);
   Map<String, dynamic> toJson() => _$TopicToJson(this);
-  factory Topic.fromSnapshot(DocumentSnapshot snap) =>
-      Topic.fromJson(snap.data());
+  factory Topic.fromSnapshot(DocumentSnapshot snap) {
+    return Topic(
+      id: snap.id,
+      title: snap.data()['title'] as String,
+      description: snap.data()['description'] as String,
+    );
+  }
   Map<String, dynamic> toDocument() => <String, dynamic>{
         'title': title,
         'description': description,

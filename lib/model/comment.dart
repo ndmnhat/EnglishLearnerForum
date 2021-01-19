@@ -12,8 +12,13 @@ class Comment {
   factory Comment.fromJson(Map<String, dynamic> json) =>
       _$CommentFromJson(json);
   Map<String, dynamic> toJson() => _$CommentToJson(this);
-  factory Comment.fromSnapshot(DocumentSnapshot snap) =>
-      Comment.fromJson(snap.data());
+  factory Comment.fromSnapshot(DocumentSnapshot snap) {
+    return Comment(
+      id: snap.id,
+      userRef: snap.data()['userRef'] as String,
+      content: snap.data()['content'] as String,
+    );
+  }
   Map<String, dynamic> toDocument() => <String, dynamic>{
         'userRef': userRef,
         'content': content,

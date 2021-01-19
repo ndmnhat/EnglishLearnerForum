@@ -1,5 +1,7 @@
-export 'package:EnglishLearnerForum/blocs/homeBloc/home_page_bloc.dart';
-export 'package:EnglishLearnerForum/blocs/authBloc/auth_bloc.dart';
-export 'package:EnglishLearnerForum/blocs/loginBloc/login_bloc.dart';
-export 'package:EnglishLearnerForum/blocs/regBloc/user_reg_bloc.dart';
-export 'package:EnglishLearnerForum/blocs/topicBloc/topic_bloc.dart';
+export 'package:EnglishLearnerForum/blocs/homeBloc/home_page.dart';
+export 'package:EnglishLearnerForum/blocs/authBloc/auth.dart';
+export 'package:EnglishLearnerForum/blocs/loginBloc/login.dart';
+export 'package:EnglishLearnerForum/blocs/regBloc/user_reg.dart';
+export 'package:EnglishLearnerForum/blocs/topicBloc/topic.dart';
+export 'package:EnglishLearnerForum/blocs/postBloc/post.dart';
+export 'package:EnglishLearnerForum/blocs/commentBloc/comment.dart';
