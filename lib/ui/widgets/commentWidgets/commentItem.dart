@@ -1,6 +1,7 @@
 import 'package:EnglishLearnerForum/blocs/userProfileBloc/userProfile.dart';
 import 'package:EnglishLearnerForum/model/comment.dart';
 import 'package:EnglishLearnerForum/repositories/repository.dart';
+import 'package:EnglishLearnerForum/ui/widgets/UserAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:EnglishLearnerForum/blocs/bloc.dart';
@@ -59,10 +60,7 @@ class CommentItem extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.cyanAccent[400],
-                    child: Icon(Icons.person, color: Colors.white),
-                  ),
+                  UserAvatar(),
                   Padding(
                     padding: EdgeInsets.only(top: 5),
                     child: BlocBuilder<UserProfileBloc, UserProfileState>(

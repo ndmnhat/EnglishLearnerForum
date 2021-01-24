@@ -10,13 +10,14 @@ class UserProfile {
       @required this.displayName,
       @required this.email,
       @required this.role,
-      @required this.phoneNumber});
+      @required this.phoneNumber,
+      this.avatarURL});
   String id;
   String displayName;
   String email;
   String role;
   String phoneNumber;
-
+  String avatarURL;
   factory UserProfile.fromJson(Map<String, dynamic> json) =>
       _$UserProfileFromJson(json);
   Map<String, dynamic> toJson() => _$UserProfileToJson(this);
@@ -27,6 +28,7 @@ class UserProfile {
       email: snap.data()['email'] as String,
       role: snap.data()['role'] as String,
       phoneNumber: snap.data()['phoneNumber'] as String,
+      avatarURL: snap.data()['avatarURL'] as String,
     );
   }
   Map<String, dynamic> toDocument() => <String, dynamic>{
@@ -34,5 +36,6 @@ class UserProfile {
         'email': email,
         'role': role,
         'phoneNumber': phoneNumber,
+        'avatarURL': avatarURL,
       };
 }

@@ -26,7 +26,7 @@ class _PageParentState extends State<PageParent> {
     _children = [
       HomePageParent(user: user, userRepository: userRepository),
       ExercisePage(),
-      AccountPage()
+      AccountPageParent(user: user, userRepository: userRepository)
     ];
   }
 

@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:EnglishLearnerForum/utils/error_codes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:EnglishLearnerForum/model/userProfile.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
 
 class UserRepository {
   FirebaseAuth firebaseAuth;
@@ -20,9 +24,9 @@ class UserRepository {
         password: pass,
       );
       print("REPO : ${authResult.user.email}");
-      await users
-          .doc(authResult.user.uid)
-          .set({'email': authResult.user.email, 'role': 1});
+      await users.doc(authResult.user.uid).set(UserProfile(
+              displayName: 'User', email: email, role: '1', phoneNumber: '0')
+          .toDocument());
       return authResult.user;
     } on PlatformException catch (e) {
       String authError = "";
@@ -127,6 +131,19 @@ class UserRepository {
 
   Future<void> updateUserProfile(UserProfile user) {
     return users.doc(user.id).update(user.toDocument());
+  }
+
+  Future<void> updateUserAvatar(File userAvatar) async {
+    String fileName = basename(userAvatar.path);
+    User user = await getCurrentUser();
+    Reference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child('uploads/${user.uid}/$fileName)');
+    UploadTask uploadTask = firebaseStorageRef.putFile(userAvatar);
+    String avatarURL;
+    uploadTask.then((res) async {
+      avatarURL = await res.ref.getDownloadURL();
+      return users.doc(user.uid).update({'avatarURL': avatarURL});
+    });
   }
 
   // get current user

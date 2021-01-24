@@ -68,9 +68,7 @@ class _PostPageState extends State<PostPage> {
           )
         ],
       ),
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: ListView(
         children: [
           FullPostItemParent(post: widget.post, user: widget.user),
           Padding(

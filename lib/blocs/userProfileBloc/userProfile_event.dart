@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:EnglishLearnerForum/model/userProfile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,6 +29,19 @@ class UpdateUserProfile extends UserProfileEvent {
   @override
   String toString() =>
       'UpdateUserProfile { updatedProfile: $updatedUserProfile }';
+}
+
+class UpdateUserAvatar extends UserProfileEvent {
+  final File updatedUserAvatar;
+
+  const UpdateUserAvatar(this.updatedUserAvatar);
+
+  @override
+  List<Object> get props => [updatedUserAvatar];
+
+  @override
+  String toString() =>
+      'UpdateUserProfile { updatedProfile: $updatedUserAvatar }';
 }
 
 class UserProfileUpdated extends UserProfileEvent {

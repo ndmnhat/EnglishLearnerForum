@@ -4,6 +4,7 @@ import 'package:EnglishLearnerForum/repositories/repository.dart';
 import 'package:EnglishLearnerForum/ui/pages/constants.dart';
 import 'package:EnglishLearnerForum/ui/pages/topic_page.dart';
 import 'package:EnglishLearnerForum/ui/widgets/topicWidgets/addTopicButton.dart';
+import 'package:EnglishLearnerForum/ui/widgets/topicWidgets/topicItem.dart';
 import 'package:EnglishLearnerForum/ui/widgets/topicWidgets/topicList.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:EnglishLearnerForum/blocs/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:search_widget/search_widget.dart';
 
 class HomePageParent extends StatelessWidget {
   final User user;
@@ -44,6 +46,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<TopicItem> loadTopics = new List<TopicItem>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +72,18 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: [
+          SearchWidget<TopicItem>(
+            dataList: loadTopics,
+            queryBuilder: (String query, List<TopicItem> list) {
+              return list.toList();
+            },
+            selectedItemBuilder: (TopicItem topicItem, Function function) {
+              return TopicItem();
+            },
+            popupListItemBuilder: (TopicItem item) {
+              return TopicItem();
+            },
+          ),
           TopicList(user: widget.user),
           AddTopicButton(),
         ],

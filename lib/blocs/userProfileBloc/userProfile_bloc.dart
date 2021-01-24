@@ -19,6 +19,8 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
       yield* _mapUpdateUserProfileToState(event);
     } else if (event is UserProfileUpdated) {
       yield* _mapUserProfileUpdatedToState(event);
+    } else if (event is UpdateUserAvatar) {
+      yield* _mapUpdateUserAvatarToState(event);
     }
   }
 
@@ -32,6 +34,11 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
   Stream<UserProfileState> _mapUpdateUserProfileToState(
       UpdateUserProfile event) async* {
     _userProfileRepository.updateUserProfile(event.updatedUserProfile);
+  }
+
+  Stream<UserProfileState> _mapUpdateUserAvatarToState(
+      UpdateUserAvatar event) async* {
+    _userProfileRepository.updateUserAvatar(event.updatedUserAvatar);
   }
 
   Stream<UserProfileState> _mapUserProfileUpdatedToState(

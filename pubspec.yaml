@@ -23,6 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  image_picker: ^0.6.7+21
   firebase_core: ^0.6.0
   # Add the dependency for the FlutterFire plugin for Google Analytics
   firebase_analytics: ^7.0.0
@@ -33,6 +34,7 @@ dependencies:
   # For example, to use Firebase Authentication and Cloud Firestore
   firebase_auth: ^0.19.0+1
   cloud_firestore: ^0.15.0
+  firebase_storage: ^6.0.0
   flutter_bloc: ^6.1.1
   # Json
   json_annotation: ^3.0.0
@@ -43,6 +45,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   material_design_icons_flutter: ^4.0.5855
   cupertino_icons: ^1.0.0
+  search_widget: ^1.0.2
 
 dev_dependencies:
   flutter_test:
@@ -58,7 +61,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
+  assets:
+    - assets/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

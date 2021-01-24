@@ -1,47 +1,47 @@
 import 'package:EnglishLearnerForum/blocs/bloc.dart';
 import 'package:EnglishLearnerForum/repositories/user_repository.dart';
+import 'package:EnglishLearnerForum/ui/pages/login.dart';
 import 'package:EnglishLearnerForum/ui/pages/page_parent.dart';
 import 'package:EnglishLearnerForum/ui/pages/home.dart';
-import 'package:EnglishLearnerForum/ui/pages/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
-class LoginPageParent extends StatelessWidget {
+class RegPageParent extends StatelessWidget {
   final UserRepository userRepository;
 
-  LoginPageParent({@required this.userRepository});
+  RegPageParent({@required this.userRepository});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginBloc(userRepository: userRepository),
-      child: LoginPage(userRepository: userRepository),
+      create: (context) => UserRegBloc(userRepository: userRepository),
+      child: RegPage(userRepository: userRepository),
     );
   }
 }
 
-class LoginPage extends StatefulWidget {
-  UserRepository userRepository;
-  LoginPage({Key key, this.userRepository}) : super(key: key);
+class RegPage extends StatefulWidget {
+  final UserRepository userRepository;
+  RegPage({Key key, this.userRepository}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegPageState createState() => _RegPageState();
 }
 
-// class _LoginPageState extends StatefulWidget{
-//    LoginPageState({Key key, this.title}) : super(key: key);
+// class _RegPageState extends StatefulWidget{
+//    RegPageState({Key key, this.title}) : super(key: key);
 // }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegPageState extends State<RegPage> {
   TextEditingController emailCntrlr = TextEditingController();
   TextEditingController passCntrlr = TextEditingController();
   bool _showPass = false;
-  LoginBloc loginBloc;
+  UserRegBloc regBloc;
   @override
   Widget build(BuildContext context) {
-    loginBloc = BlocProvider.of<LoginBloc>(context);
+    regBloc = BlocProvider.of<UserRegBloc>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(children: <Widget>[
@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10))),
                         color: Colors.cyanAccent[400],
-                        child: Text("ĐĂNG NHẬP"),
+                        child: Text("ĐĂNG KÝ"),
                       ),
                     ),
                   ),
@@ -145,13 +145,13 @@ class _LoginPageState extends State<LoginPage> {
                       children: <Widget>[
                         InkWell(
                           child: Text(
-                            "Chưa có tài khoản? Đăng ký",
+                            "Đã có tài khoản? Đăng nhập",
                             style: TextStyle(color: Color(0xff888888)),
                           ),
                           onTap: () {
                             Navigator.of(context)
                                 .pushReplacement(MaterialPageRoute(
-                                    builder: (context) => RegPageParent(
+                                    builder: (context) => LoginPageParent(
                                           userRepository: widget.userRepository,
                                         )));
                           },
@@ -170,21 +170,21 @@ class _LoginPageState extends State<LoginPage> {
           ),
           Container(
             padding: EdgeInsets.all(5.0),
-            child: BlocListener<LoginBloc, LoginState>(
+            child: BlocListener<UserRegBloc, UserRegState>(
               listener: (context, state) {
-                if (state is LoginSuccessState) {
+                if (state is UserRegSuccessful) {
                   navigateToHomeScreen(context, state.user);
                 }
               },
-              child: BlocBuilder<LoginBloc, LoginState>(
+              child: BlocBuilder<UserRegBloc, UserRegState>(
                 builder: (context, state) {
-                  if (state is LoginInitialState) {
+                  if (state is UserRegInitial) {
                     return buildInitialUi();
-                  } else if (state is LoginLoadingState) {
+                  } else if (state is UserRegLoading) {
                     return buildLoadingUi();
-                  } else if (state is LoginFailState) {
+                  } else if (state is UserRegFailure) {
                     return buildFailureUi(state.message);
-                  } else if (state is LoginSuccessState) {
+                  } else if (state is UserRegSuccessful) {
                     emailCntrlr.text = "";
                     passCntrlr.text = "";
                   }
@@ -199,8 +199,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void onSigninClick() {
-    loginBloc.add(
-      LoginButtonPressed(
+    regBloc.add(
+      SignUpButtonPressed(
         email: emailCntrlr.text,
         password: passCntrlr.text,
       ),

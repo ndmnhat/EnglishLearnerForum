@@ -22,6 +22,7 @@ class CommentList extends StatelessWidget {
             return Container();
           else {
             return ListView.builder(
+              primary: false,
               itemCount: comments.length,
               itemBuilder: (context, index) {
                 final comment = comments[index];
